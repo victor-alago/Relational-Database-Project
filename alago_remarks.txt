@@ -1,0 +1,52 @@
+NAME: ALAGO VICTOR C.
+--BACHELORS EXERCISE
+
+
+--REMARKS ON MAKING MY ER DIAGRAM
+
+I put in a lot work to try to make my ER-DIAGRAM as clear as possible.
+I connected my candidates to payments and then connected my payments to the student. There was no need to create a table for list of rejected candidates who didn't pay. For the cadidates, it is exactly one candidate to zero or one payment, so logically, any candidate that didn't pay was rejected.
+
+POSSIBLE FUTURE PROBLEM:
+This model didn't consider that the students will probably continue to pay more fees in the future.
+
+SOLUTION:
+Exactly one student can make one to many payments (My ER Diagram accomodates this solution)
+
+In this model the students and the courses are probably the most important entities as they are in one way or another connected to every other entities.
+
+Each intake will have one to many students. Not to confuse intakes with programs, each intake year or season one to many programs. My argument and reasoning is that each intake has it's own defined list of programs. This will be useful to know what programs that was offered say for a period of years and the ones that were dropped (maybe they became less relevant) and new programmes that were be added (a new programme is likely to be introduced soon). For this, the intake table is directly linked to the programs table too. 
+
+Probably the most challenging part of designing this model is the finding the best way to link the program, courses and student. This is especially challenging as this formed the basis for creating many of the other entities in the ER Diagram. 
+
+I created the curriculum table to link the programs to courses. This is because different programs can have one to many courses and the in the same way, same courses can be included in same and other programs. This makes a many to many relationship, so I have to create a bridge between them[curriculum].
+
+Curriculum here should be looked at as the defined order of how the courses are offered in a program. This is usually called semesters. So each program has it's own one or many curriculums and each curriculum contains one to many courses.
+
+Students and sessions and courses are connected via programs and curriculum. Each existing program can be attended by many students or none(perhaps the program is becoming less relevant; arguement is in paragraph 3). Each existing program has it's defined curriculum which contains all the required courses. Each course contains at least one to many lectures(sessions). This all means that a student's courses, lectures and curriculum are all defined in his/her program.
+
+QUESTION ON A POSSIBLE FUTURE PROBLEM:
+This EPITA model defines that a student is assigned to one program, what if the student wants to combine two programs? What if a bachelor student wants to continue his/her masters, which means another program? We were told a bachelors student can decide to continue for a masters program without reapplying as a candidate.
+
+POSSIBLE SOLUTION:
+One student one should be allowed to have one or more programs(More reasons I created an intake table)("TO BE CHECKED FOR CONFIRMATION").
+
+I combined exam results and grades in one table since they have same meaning and it would be odd to seperate them. It's quite easy to get the grades of each student by suming the exam scores.  Also exactly one student can have many exam records or none(they could be absent).
+
+Also a student can have many attendance or none at all, and each attendance is for exactly one lecture while one lecture has exactly one attendance recorded for it. Also it is possible for a lecture to be handled by more than one teacher (it could be a practical class that requires many instructors) but each teacher can't have more than one lecture at a time.
+
+Each teacher can have one to many payments, could be salaries, bonuses etc but each payment is recorded for exactly one teacher.
+
+Admin table doesnt have any foreign keys or used in any other tables. The logic is that the admins one querry and access the database for records.
+
+
+--REMARKS ON CREATING MY SCRIPT WITH PRIMARY AND FOREIGN KEYS
+
+Creating the tables took more effort than I had imagined. I encountered so many errors while creating the tables. First I created the tables with the primary keys and foreign keys and this caused so many errors. So I had to sort for other methods by experimenting with my script to find what works. So I executed my script without the foreign keys and this worked.
+I used the alter table command to add my foreign keys. Soon I discovered more errors. That's when I made a surprising discrovery;
+--When I executed my alter statements individually, they all ran successfully and I had no errors.
+--But I encountered errors when I ran the the whole script. It took me quite sometime before I discorvered the cause.
+
+PROBLEM: Alter statements will run successfully if they are executed one by one but gave me errors if I ran all my scripts.
+
+SOLUTION: The alter statements ran successfully without ';' as long as they are executed one by one. To make them execute successfully when I run all my script once, I had to add ';' to the end of all my Alter statements. Then it worked :)
